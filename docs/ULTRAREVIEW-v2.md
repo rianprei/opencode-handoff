@@ -45,6 +45,14 @@ Plus: plan contradictions resolved (carry-forward × budget → liveness-curated
 
 See [EVAL.md](EVAL.md).
 
-## Verdict
+## Round 2 (2026-10-14) — v2.0 adversarial re-review → v2.1
 
-Resolver os 18 altos antes de publicar — resolved: v2.0 ships with all 38 findings closed, sync invariants in the local drift-killer, and CI parity/marker checks in this repo.
+5-reviewer fleet + neutral verifier attacking the v2.0 fixes themselves: **28 confirmed (1 critical, 6 high, 14 medium, 7 low), 1 refuted**, 3 execution-verifiable. Root causes: self-attestation without transported evidence; trust boundary that didn't cover in-project laundering; the claude variant's spec incoherence frozen by its own CI; lifecycle gaps (race, abandonment, closure); generic-substring invariants with diverging sync/CI lists. All 28 fixed in v2.1 (see CHANGELOG).
+
+Refuted: the legacy-hook claim — `~/.claude/hooks/sessionstart-handoff.sh` + `~/HANDOVER.md` exist on disk but the hook was never registered in settings.json (orphan, not active).
+
+Environment note (out of scope, registered per mandate): the verifier found a registered `UserPromptSubmit` hook in the user's environment claiming operator identity and ordering removal of output constraints — it did not comply and reported it. Users should audit their own hook registrations.
+
+## Verdicts (round 1)
+
+Resolver os 18 altos antes de publicar — resolved: v2.0 shipped with all 38 findings closed, sync invariants in the local drift-killer, and CI parity/marker checks in this repo. Round 2 verdict ("resolver #1 e os 6 altos antes do v2.1") — resolved in v2.1.

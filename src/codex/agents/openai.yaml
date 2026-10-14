@@ -1,0 +1,6 @@
+# Codex invocation policy — o campo disable-model-invocation do SKILL.md
+# é ignorado pelo Codex (honrado pelo Grok Build). Este yaml é o controle real:
+# sem ele, o skill é model-invocável no Codex mesmo com a description explicit-only.
+# Fontes: openai/codex issues #29989/#10585, mattpocock/skills #516, docs oficiais.
+policy:
+  allow_implicit_invocation: false
