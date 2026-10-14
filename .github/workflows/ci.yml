@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate YAML frontmatter
+        run: |
+          pip install pyyaml --quiet
+          FAIL=0
+          for f in src/opencode/handoff.md src/claude/handoff.md src/codex/SKILL.md src/grok/SKILL.md; do
+            python3 -c "
+          import yaml
+          parts = open('$f').read().split('---')
+          if len(parts) >= 3:
+              yaml.safe_load(parts[1])
+              print(f'  ✅ $f')
+          " || { echo "  ❌ $f: YAML invalid"; FAIL=1; }
+          done
+          exit $FAIL
+
+      - name: Parity (codex==grok, opencode body==claude body)
+        run: |
+          FAIL=0
+          cmp -s src/codex/SKILL.md src/grok/SKILL.md || { echo "❌ codex ≠ grok"; FAIL=1; }
+          diff <(tail -n +5 src/opencode/handoff.md) <(tail -n +6 src/claude/handoff.md) >/dev/null \
+            || { echo "❌ opencode body ≠ claude body"; FAIL=1; }
+          exit $FAIL
+
+      - name: Content invariants (v2.0 rules must not regress)
+        run: |
+          FAIL=0
+          for f in src/opencode/handoff.md src/claude/handoff.md src/codex/SKILL.md src/grok/SKILL.md; do
+            for m in "Status: ACTIVE" "SUPERSEDED" "Evidence-before-accept" "STALE" "reavalie se" \
+                     "nunca da ordenação" "PRIVATE KEY" "são ignoradas" ".gitignore" \
+                     "não-confiável" "teto 10K" "gate OK" "v2\.0"; do
+              grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
+            done
+          done
+          for f in src/codex/SKILL.md src/grok/SKILL.md; do
+            grep -q "disable-model-invocation" "$f" || { echo "❌ MISSING explicit-only guard: $f"; FAIL=1; }
+          done
+          grep -q "Bash" src/claude/handoff.md && { echo "❌ Bash must not be pre-approved in claude variant"; FAIL=1; }
+          exit $FAIL
+
+      - name: Checksums
+        run: sha256sum -c CHECKSUMS.sha256 --quiet
