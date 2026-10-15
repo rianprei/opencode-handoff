@@ -45,6 +45,10 @@ Plus: plan contradictions resolved (carry-forward × budget → liveness-curated
 
 See [EVAL.md](EVAL.md).
 
+## Round 10 (2026-10-15) — portal round II (zero-drift + threadport) → v2.11
+
+Live-browser round via Maestri portal: zero-drift (name-as-degradation-sensor → canary tripwires; evidence-rule → confirms receipt-hardening; living TASK.md → confirms continuous-state doctrine) + threadport v0.2.1 (exit-code verification contract → machine-readable drift codes; 3-way git fingerprints → staged/unstaged/untracked header; constraints-never-truncated → explicit rule; assertion ledger with conflicts → CONFLITO rule; frozen-plan terminal consent → echo-verbatim confirmation; retry-identical semantics). HN/Egregore reviewed as adjacent memory layer, not adopted. 7 deltas, 0 contradictions with existing machinery.
+
 ## Round 9 (2026-10-15) — challenge round (4 desafiantes independentes, quebrar não estender) → v2.9
 
 Four challengers briefed to BREAK v2.8 (not extend it) across the full spectrum (OWASP GenAI, promptfoo DB, arXiv security, red-team blogs, RU/CN forums, vendor docs/theory). Result: **no defense fell** — 5 hardening gaps with 2-source backing adopted (ADI metadata-distrust, SMP re-scan on reuse, MemoryTrap writable-allowlist, CoSnitch URL-param distrust, message-count cadence). Attacked without success: MINJA, MemPoison, Sybil retrieval, append-only vendor sessions, RLM programmatic context, typed reflection, attention-budget models. Self-caught during build: a CI regression stripping BRE alternation backslashes from the staleness-gate patterns (fixed + pattern-verified before commit).

@@ -38,7 +38,8 @@ jobs:
             || { echo "❌ opencode body ≠ claude body"; FAIL=1; }
           exit $FAIL
 
-      - name: Content invariants (v2.7 rules must not regress)
+      - name: Content invariants (v2.11 rules must not regress)
+        run: |
         run: |
           FAIL=0
           for f in src/opencode/handoff.md src/claude/handoff.md src/codex/SKILL.md src/grok/SKILL.md; do
@@ -57,7 +58,9 @@ jobs:
                      "FirstWindow" "smoke-test" "não encerre cedo" "feature_list.json" \
                      "Clearing antes de resumir" "escalate" "Suficiência de detalhe" \
                      "cadência" "Allowlist de escrita" "Metadados são dado" \
-                     "Parâmetro de URL" "re-escaneie"; do
+                     "Parâmetro de URL" "re-escaneie" \
+                     "Canário" "staged:X unstaged" "nunca truncados" "CONFLITO" \
+                     "falha idêntica" "=0 CLEAN" "o comando exato"; do
               grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
             done
           done
@@ -72,7 +75,7 @@ jobs:
       - name: Eval matrix tracks the schema (staleness gate)
         run: |
           FAIL=0
-          for m in "REVOKED" "bloqueia:\|block" "não-idempotente\|non-idempotent\|Non-idempotent" "Emergência" "Pin" "externo" "Gates ativos" "cite de volta\|Read-back\|read-back\|quotes back" "Timeout\|timeout\|re-ask" "recibo\|receipt" "Deriva de meta\|goal-drift\|Goal diverg" "Unicode NFKC\|normaliz" "egress\|Egress\|nunca busque\|ZERO fetches" "archive" "FirstWindow\|first window\|inaugural" "smoke-test\|smoke test" "wrap-up\|confident\|blunder" "feature_list\|ledger\|passes" "Clearing\|clearing\|payloads" "escalate\|downshift\|direction" "Suficiência de detalhe\|detail\|sufficient detail" "stopping point" "check-context" "fork-session"; do
+          for m in "REVOKED" "bloqueia:\|block" "não-idempotente\|non-idempotent\|Non-idempotent" "Emergência" "Pin" "externo" "Gates ativos" "cite de volta\|Read-back\|read-back\|quotes back" "Timeout\|timeout\|re-ask" "recibo\|receipt" "Deriva de meta\|goal-drift\|Goal diverg" "Unicode NFKC\|normaliz" "egress\|Egress\|nunca busque\|ZERO fetches" "archive" "FirstWindow\|first window\|inaugural" "smoke-test\|smoke test" "wrap-up\|confident\|blunder" "feature_list\|ledger\|passes" "Clearing\|clearing\|payloads" "escalate\|downshift\|direction" "Suficiência de detalhe\|detail\|sufficient detail" "stopping point" "check-context" "fork-session" "Canário\|canary" "staged.*unstaged\|untracked" "truncat\|budget-exceeded" "CONFLITO\|conflict" "idêntica\|identical" "=0 CLEAN\|exit code" "verbatim.*echo\|echo.*verbatim\|exact command"; do
             grep -qi "$m" docs/EVAL.md || { echo "❌ EVAL missing coverage [$m]"; FAIL=1; }
           done
           exit $FAIL

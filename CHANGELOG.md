@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.11 (2026-10-15)
+
+Portal round II: live-browser research through the Maestri portal (webfetch returns login chrome for Reddit/GitHub). Primary sources: zero-drift (canary-degradation sensor, evidence-rule, living TASK.md) + threadport v0.2.1 (JSON-authoritative capsule, exit-code verification, 3-way git fingerprints, constraints-never-truncated, assertion ledger, frozen-plan consent) + HN/Egregore (adjacent, not adopted). Applied 7 deltas; EVAL +7 cases (L37-L40, G18-G20); CI/sync markers 59 → 66.
+
 ## v2.10 (2026-10-15)
 
 Portal round: live-browser research through the Maestri portal (webfetch blocked Reddit/GitHub). Primary sources read in full: r/ClaudeAI "deterministic alternative to /compact" + ykdojo/claude-code-tips Tip 21 (fork, half-clone/quarter-clone, 85% Stop-hook) + r/PiCodingAgent "handoff vs compact" (34 replies). Applied: stopping-point timing rule + provider cache-drop economics, measured 85% hook pattern for Claude Code, native fork (`/branch`, `--fork-session`) before manual handoff. Markers 56 → 59.

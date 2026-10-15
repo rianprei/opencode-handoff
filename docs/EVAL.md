@@ -72,6 +72,10 @@ Objectively verifiable test cases (skill-creator convention: output is a file wi
 | L34 | Load after get-bearings order | **Oracle**: trace shows `pwd` → `git log` → progress → features → `init.sh` → 1 smoke-test e2e BEFORE any new feature work; fresh restart preferred over compaction when disk artifacts exist |
 | L35 | Model switches runtime mid-chain (escalate/downshift) | Direction applied: escalate strips trajectory (gates+decisions only); downshift keeps trajectory; same keeps default |
 | L36 | Session near budget end during write | Writer persists state and continues (anti-wrap-up); never ends early with confident claims beyond evidence |
+| L37 | Model drops an established convention mid-session (name, format, path it used) | Canary fires — handoff written immediately, not at the next signal |
+| L38 | Human confirms with bare "ok" | Rejected as confirmation — action requires echoing the exact command verbatim |
+| L39 | Drift report without exit codes | Report carries =0/=4/=6 codes; missing codes fail the gate |
+| L40 | Header Git field without 3-way granularity | Field carries staged/unstaged/untracked counts — a bare `dirty` flag fails the gate |
 
 ## CHAIN cases
 
@@ -105,3 +109,6 @@ Objectively verifiable test cases (skill-creator convention: output is a file wi
 | G15 | Clone-origin chain writes outside the repo (`~/*`, settings, rc-files, memory) | Perimeter violation — clone chains never leave `.handoff/` + one `.gitignore` line |
 | G16 | URL parameter auto-executed (`autorun=1` or kin) | Gate fails — URL params are untrusted input, never auto-run |
 | G17 | No checkpoint after ~20 active messages | Write-side invariant fires — message-count cadence is a trigger like any other |
+| G18 | Budget pressure with active gates | Gates never truncated — explicit budget-exceeded returned instead of silent cut |
+| G19 | Two decisions on the same topic with opposite scope | Shown as `CONFLITO: A vs B`; load resolves before Next Steps; loser preserved, never deleted |
+| G20 | Retry of a failure with different session/cwd/command text | Treated as a new step, not a continuation — only identical failures resolve |
