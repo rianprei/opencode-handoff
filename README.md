@@ -3,7 +3,7 @@
 > **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 20+ open-source handoff implementations, Reddit practitioner threads, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **six adversarial fleet reviews** (116 findings, all fixed), a **5-lens council convergence round** (7 techniques adopted, 3 deferred with reasons), and two **ecosystem max-sweeps** (arXiv-grounded). Runs 100% locally. No cloud. No quota. No git required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.5-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.6-green.svg)](CHANGELOG.md)
 [![Runtimes](https://img.shields.io/badge/runtimes-opencode%20%7C%20claude%20%7C%20codex%20%7C%20grok-blueviolet.svg)](#installation)
 [![Cloud Free](https://img.shields.io/badge/cloud-free-brightgreen.svg)](#the-problem-it-solves)
 [![Quota Free](https://img.shields.io/badge/quota-unlimited-brightgreen.svg)](#the-problem-it-solves)

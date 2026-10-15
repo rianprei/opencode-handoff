@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.6 (2026-10-15)
+
+Surgical tone rework of v2.5 command texts across all 4 runtimes — **zero semantic changes**. Professional register, direct, precise; emoji verified at zero in all 4 files (grep across full Unicode emoji ranges returns 0 matches); colloquialisms replaced ("diga e pare" → "informe e pare", "nada além" → "nada adicional", "pule" → "ignore", prompt-text standardized). All 30 content markers, section structure, gate semantics and trust machinery bit-identical to v2.5 (verified marker-by-marker); suite sync green without changes. install.sh retagged v2.5 → v2.6.
+
 ## v2.5 (2026-10-15)
 
 Fleet round 6 on v2.4: **24 findings (3 critical, 8 high, 10 medium, 3 low), 1 refuted** — the curve rose because v2.4 added six new systems and the cracks sat at the joints. All fixed. [Full report](docs/ULTRAREVIEW-v2.md).
