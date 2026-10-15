@@ -1,5 +1,28 @@
 # Changelog
 
+## v2.4 (2026-10-14)
+
+Convergence round 2: Reddit (16 techniques, old.reddit threads) + GitHub (11, incl. continuity/redducklabs/batonpass) + arXiv (12 papers, 5 verified) → schema upgrade grounded in verified quantitative results. No fleet findings — pure capability + theory alignment.
+
+### Added — theory-backed (arXiv verified)
+- **Item lifecycle: ACTIVE / SUPERSEDED / REVOKED + supersedes links** on every carry-forward item (Key Decisions, Dead Ends, Gotchas, Where We Are). Grounding: TEPA (arXiv:2608.07429) — append-only memory scores **below a memoryless agent** after regime reversal (0.210 vs 0.309); validity-state memory reaches 0.950. The Seq/Parent chain is the audit archive; contradictions mark REVOKED with evidence instead of silent rewrites
+- **Constraints and Dead Ends as GATES** (`gatilho · bloqueia · até`), gate-phrased ("não rode X até Y porque Z") instead of precedent-phrased, and **re-asserted verbatim in the Resume bootstrap**. Grounding: arXiv:2608.24569 — constraint *role* (not content) erodes in handoffs; full blocker text restored raises recognition 6.2%→99.2% and cuts forbidden actions 85.2%→0.0%
+- **Per-item provenance with non-amplification**: `verificado-disco` / `usuário` / `inferência` / `externo-não-confiável` — external-untrusted items never enter Commands, never gate actions, and carry their source pointer through the chain. Grounding: arXiv:2607.29167 (provenance laundering in consolidation)
+- **Environment pin + reconciliation** (header `Pin: <âncoras verificadas neste sha>`; LOAD step 0): anchors are valid for the header SHA; HEAD moved → re-verify; unverifiable anchors **downgrade to inference, never deleted**. Grounding: arXiv:2608.14380 (AgentRewind context↔environment alignment)
+- **Rollback-risk + preconditions on Next Steps**: each step may carry `válido se <condição>` and `não-idempotente: <efeito>`; the load never re-executes a non-idempotent effect that already exists. Grounding: arXiv:2606.02875 (Handoff Debt — bounded continuation contract) + STALE (premise resistance)
+
+### Added — practice-backed (Reddit/GitHub, ≥2 sources where critical)
+- **Write-side invariant**: recommending a session restart → checkpoint FIRST (the agent's own restart advice was the top context-loss event); handoff is an invariant, not a ritual
+- **Materiality gate**: every cited path resolves on disk at write time (dangling references = the most concrete documented context loss)
+- **Filesystem-not-chat self-test**: disk + doc must reconstruct state without the transcript
+- **Atomic one-shot write** (no appends — torn handoffs kill the chain)
+- **Layered cut order**: task state + decisions/blockers + active-file diffs always survive; project context, tool activity, stats, old history fill the remainder
+- **Snapshot-vs-tree staleness** folded into drift (dirty tree newer than header Date → DIVERGED); `Emergência` gains validity (re-verified → rewritten as normal)
+- **Two-stage export→distill fallback** inside emergency mode; **origin-classified prompts** (host-started notifications never count as decisions); **verifier enum** `pass|fail|not-run`; **transcript pointer** (raw provenance); **Commands section = non-derivable only**; **statistics without anchor + dependent decision = decoration (cut)**
+
+### Deferred
+- Hook-side automation (PreCompact/Stop-block-once/measured-75% triggers, ownership lease with prompt blocking, eval scorecard): runtime-specific adapters — the doctrine is documented in docs/ULTRAREVIEW-v2.md round 5; the command encodes the invariants the hooks would enforce
+
 ## v2.3 (2026-10-14)
 
 Convergence round: full GitHub + Reddit sweep (12 new sources) → 10 candidate techniques → 5-lens council (Architect/Security/Performance/UX/QA) → 7 adopted, 3 deferred with reasons. No fleet-review findings this round — this is capability adoption.

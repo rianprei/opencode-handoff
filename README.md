@@ -3,7 +3,7 @@
 > **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 20+ open-source handoff implementations, Reddit practitioner threads, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **three adversarial fleet reviews** (92 findings) plus a **5-lens council convergence round** (7 techniques adopted, 3 deferred with reasons). Runs 100% locally. No cloud. No quota. No git required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.3-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.4-green.svg)](CHANGELOG.md)
 [![Runtimes](https://img.shields.io/badge/runtimes-opencode%20%7C%20claude%20%7C%20codex%20%7C%20grok-blueviolet.svg)](#installation)
 [![Cloud Free](https://img.shields.io/badge/cloud-free-brightgreen.svg)](#the-problem-it-solves)
 [![Quota Free](https://img.shields.io/badge/quota-unlimited-brightgreen.svg)](#the-problem-it-solves)
@@ -19,6 +19,18 @@ Long sessions rot. Compaction summarizes at the model's worst moment, drops the 
 /handoff load <path>    # resume: classify trust, verify against disk, classify drift, continue
 /handoff chain          # list the chain (Seq, date, status, goal)
 ```
+
+## v2.4 — theory-grounded schema upgrade (arXiv-verified)
+
+The schema itself got upgraded this round, with verified quantitative grounding:
+
+- **Item lifecycle: ACTIVE / SUPERSEDED / REVOKED** on every carry-forward item — append-only chains score *below a memoryless agent* after regime reversal (TEPA, arXiv:2608.07429); revocation is the feature, not the defect
+- **Constraints/Dead Ends as gates** (`gatilho · bloqueia · até`), re-asserted verbatim in the Resume — constraint *role* erodes in handoffs, full blocker text fixes it (arXiv:2608.24569: forbidden actions 85.2%→0.0%)
+- **Provenance + non-amplification** — `externo-não-confiável` items never enter Commands or gate actions (arXiv:2607.29167: consolidation launders untrusted observations into apparent user history)
+- **Environment pin + reconciliation** — anchors are valid for the header SHA; moved HEAD downgrades unverifiable anchors to inference, never deletes (arXiv:2608.14380)
+- **Rollback-risk and preconditions per step** — non-idempotent effects are never re-executed (arXiv:2606.02875, Handoff Debt)
+- **Write-side invariant** — recommending a restart writes the checkpoint first; materiality gate (every cited path resolves); filesystem-not-chat self-test; atomic one-shot write; layered cut order
+- Hook-side automation (PreCompact backstop, measured-75% triggers, ownership lease, eval scorecard) documented as ecosystem doctrine in the round-5 report — the command encodes the invariants the hooks enforce
 
 ## v2.3 — council convergence (GitHub + Reddit → 5-lens council)
 

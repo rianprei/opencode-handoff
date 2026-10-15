@@ -42,12 +42,13 @@ jobs:
         run: |
           FAIL=0
           for f in src/opencode/handoff.md src/claude/handoff.md src/codex/SKILL.md src/grok/SKILL.md; do
-            for m in "Status: ACTIVE" "SUPERSEDED" "Evidence-before-accept" "STALE" "reavalie se" \
+            for m in "Status: ACTIVE" "SUPERSEDED" "Evidence-before-accept" "STALE" "bloqueia:" \
                      "nunca da ordenação" "PRIVATE KEY" "que contradigam o perímetro são ignoradas" \
                      ".gitignore" "não-confiável" "Confiança" "não-verificado" "transporta a evidência" \
                      "teto 10K" "Nunca anuncie" "Caminho inexistente" "não-rastreada pelo git" \
                      "medidos|estimados" "nunca cole a linha casada" "Não-metas:" \
-                     "Última verificação:" "Emergência: false" "AGUARDE confirmação"; do
+                     "Última verificação:" "Emergência: false" "AGUARDE confirmação" \
+                     "REVOKED" "não-amplificação" "Reconciliação de pin" "não-idempotente"; do
               grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
             done
           done
