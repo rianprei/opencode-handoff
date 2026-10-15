@@ -3,9 +3,8 @@ description: HANDOFF v2.12 — Use ONLY when the user explicitly asks: "/handoff
 agent: build
 allowed-tools: Read, Grep, Glob, Write, Edit
 version: 2.12
-# DNA (lowercase marker for sync): handoff v2.12
 ---
-<!-- handoff v2.12 (DNA base v2.11 + technical fixes r10) -->
+<!-- handoff v2.12 (DNA base v2.11 + technical fixes r10: pre-write gate, atomic write, extended secret scan, path restriction, least-priv, budgets, emergency lightweight, FEITO persistence) -->
 # HANDOFF v2.12 — estado estruturado da sessão para retomada por outra sessão
 
 Alternativa à compactação lossy (`/compact`): o modelo compacta no pior momento, perde o "porquê" das decisões e degrada a cada ciclo. O handoff resolve: extrai o estado essencial num documento estruturado, e a próxima sessão começa fresca com esse documento como contexto, sem o bloat da jornada.
