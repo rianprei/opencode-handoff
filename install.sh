@@ -5,7 +5,7 @@
 set -uo pipefail
 
 REPO="rianprei/opencode-handoff"
-TAG="v2.2"
+TAG="v2.5"
 
 echo "📋 Installing opencode-handoff $TAG..."
 

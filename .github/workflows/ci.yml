@@ -48,7 +48,8 @@ jobs:
                      "teto 10K" "Nunca anuncie" "Caminho inexistente" "não-rastreada pelo git" \
                      "medidos|estimados" "nunca cole a linha casada" "Não-metas:" \
                      "Última verificação:" "Emergência: false" "AGUARDE confirmação" \
-                     "REVOKED" "não-amplificação" "Reconciliação de pin" "não-idempotente"; do
+                     "REVOKED" "não-amplificação" "Reconciliação de pin" "não-idempotente" \
+                     "INCOMPATÍVEL" "em lote" "Alvo ~5K"; do
               grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
             done
           done
@@ -58,6 +59,14 @@ jobs:
           done
           grep -q "allow_implicit_invocation" src/codex/agents/openai.yaml || { echo "❌ codex policy yaml missing/invalid"; FAIL=1; }
           if grep -q "Bash" src/claude/handoff.md; then echo "❌ Bash must not appear in claude variant"; FAIL=1; fi
+          exit $FAIL
+
+      - name: Eval matrix tracks the schema (staleness gate)
+        run: |
+          FAIL=0
+          for m in "REVOKED" "bloqueia:" "não-idempotente" "Emergência" "Pin" "externo" "Gates ativos"; do
+            grep -qi "$m" docs/EVAL.md || { echo "❌ EVAL missing coverage [$m]"; FAIL=1; }
+          done
           exit $FAIL
 
       - name: Version equality (description × DNA comment, all 4 variants)

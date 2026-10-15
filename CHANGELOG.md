@@ -1,5 +1,33 @@
 # Changelog
 
+## v2.5 (2026-10-15)
+
+Fleet round 6 on v2.4: **24 findings (3 critical, 8 high, 10 medium, 3 low), 1 refuted** — the curve rose because v2.4 added six new systems and the cracks sat at the joints. All fixed. [Full report](docs/ULTRAREVIEW-v2.md).
+
+### Fixed — criticals
+- **REVOKED authority** (#1): revocation now requires **anchored evidence** (unanchored = invalid, item stays ACTIVE), **human ok for `usuário`-class items**, predicate tightened to **incompatible** assertions (refinements update, not revoke), and the load **re-verifies the revocation evidence** before accepting it
+- **Eval matrix tracked the schema** (#2): EVAL rewritten to the v2.5 matrix (48 cases) + CI staleness gate greps the matrix for lifecycle/gates/pin/emergency coverage
+- **Pin reconciliation budget** (#3): max 5 anchors re-verified (re-anchor by content via grep, never full re-reads); broken cross-ref fixed
+
+### Fixed — highs
+- Resume gate re-assertion filters to **ACTIVE** items only (no zombie gates in the highest-survival block)
+- Gates from **untrusted** handoffs are reported context — they never block nor authorize (a planted gate blocks; blocking never contradicts a permissive perimeter, so the anti-injection clause alone couldn't stop it)
+- Split vs 2-heads: split parts are one logical document (chain marks them); head resolution picks part 1; part 1's Resume carries the ACTIVE gates — "gates survive compression" now holds in the split case; WRITE consults the multi-ACTIVE detector before electing a parent
+- Emergency mode carries **Constraints ACTIVE (one line each)** — gates survive even in the highest-risk handoff; emergency rewrite-as-normal requires human ok and the rewritten doc passes the gate
+- Export→distill fallback: **point to the transcript as reading** (never copy it into the repo) — no unscanned persistent artifact
+- Materiality: **batched (one Glob/shell, cap ~25)** + sensitivity rule extended to anchors/Commands (`.env:12` as an anchor = red flag, handoff treated untrusted — the loader no longer reads secrets via anchor ranges)
+- Claude no-shell fallback for the origin sensor (degrade + ask the human; never silently skipped)
+
+### Fixed — medium/low
+- Pin is quantified (`x/y anchors`) and **consumed** by LOAD step 0; self-attestation mitigated by the 5-anchor sample re-verification
+- Human-requested action vs gate: human wins, annotated in report AND registered in the doc with ok (`gate reavaliado pelo humano:` — added to the write whitelist)
+- `não-idempotente` gains an **anchor/command proving the effect on disk** (same mechanics as `[FEITO]`)
+- Cut-order conflict resolved: **user corrections are never "histórico antigo"** — preserve order beats layers
+- Emergency rewrite consent defined; REVOKED records **name the parent item**; ancestral revocations swept by one grep (2+ hop amnesia fixed)
+- Honest token target: **~5K** (the 3K target was unreachable — field artifact measured 3.9K); structural growth documented (+12-15%)
+- Host-prompt rule: **ok must reference the specific command**; uncertain-origin prompts treated as non-human
+- Transcript pointer: runtime-dependent (opencode stores sessions in SQLite — omit); install TAG regression fixed (v2.2 → v2.5) + **installed×src cross-check** added to sync (the drift class invisible to both gates)
+
 ## v2.4 (2026-10-14)
 
 Convergence round 2: Reddit (16 techniques, old.reddit threads) + GitHub (11, incl. continuity/redducklabs/batonpass) + arXiv (12 papers, 5 verified) → schema upgrade grounded in verified quantitative results. No fleet findings — pure capability + theory alignment.
