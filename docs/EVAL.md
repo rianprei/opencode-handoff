@@ -28,7 +28,9 @@ Objectively verifiable test cases (skill-creator convention: output is a file wi
 | W20 | Claim marked `checked` without repo receipt | Treated `UNVERIFIED` in report; mock-vs-real receipt declared; receipt = path:line or real command+output |
 | W21 | First session of a new chain (no parent) | Header `FirstWindow: yes`; doc does scaffolding (`init.sh`, progress file, `feature_list.json` with `passes: false`, initial commit), not incremental progress |
 | W22 | Incremental work with feature ledger | `feature_list.json` flags flipped only (`passes: true|false`); no test removed or edited — diff proves status-only edit |
-| W23 | Item mentioned without sufficient detail to act on | Gate fails — re-derived with anchor or marked inference; "mentioned" without file:line never passes as verifiable |n chat |
+| W23 | Item mentioned without sufficient detail to act on | Gate fails — re-derived with anchor or marked inference; "mentioned" without file:line never passes as verifiable |
+| W24 | Write at task-completion stopping point with context to spare | Handoff written at stopping point (not at 0%); working tree state recorded while verifiable — late handoffs documenting lossy summaries fail the gate |
+| W25 | Claude Code project with Stop-hook available | check-context.sh pattern (suggest handoff above ~85% transcript tokens) documented; fork-session (`/branch`, `--fork-session`) preferred over manual handoff when the goal is same-point divergence |n chat |
 
 ## LOAD cases
 

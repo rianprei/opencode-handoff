@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.10 (2026-10-15)
+
+Portal round: live-browser research through the Maestri portal (webfetch blocked Reddit/GitHub). Primary sources read in full: r/ClaudeAI "deterministic alternative to /compact" + ykdojo/claude-code-tips Tip 21 (fork, half-clone/quarter-clone, 85% Stop-hook) + r/PiCodingAgent "handoff vs compact" (34 replies). Applied: stopping-point timing rule + provider cache-drop economics, measured 85% hook pattern for Claude Code, native fork (`/branch`, `--fork-session`) before manual handoff. Markers 56 → 59.
+
 ## v2.9 (2026-10-15)
 
 Challenge round 9: 4 independent challengers tasked with BREAKING v2.8 (not extending it) across the full spectrum. Result: no defense fell — but 5 hardening gaps with 2-source backing were adopted. All fixed.

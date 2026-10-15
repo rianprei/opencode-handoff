@@ -3,7 +3,7 @@
 > **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 20+ open-source handoff implementations, Reddit practitioner threads, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **six adversarial fleet reviews** (116 findings, all fixed), a **5-lens council convergence round** (7 techniques adopted, 3 deferred with reasons), two **ecosystem max-sweeps** (arXiv-grounded), and a **10-front research battalion** (22 adopted deltas, 17 deferred with reasons). Runs 100% locally. No cloud. No quota. No git required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.9-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.10-green.svg)](CHANGELOG.md)
 [![Runtimes](https://img.shields.io/badge/runtimes-opencode%20%7C%20claude%20%7C%20codex%20%7C%20grok-blueviolet.svg)](#installation)
 [![Cloud Free](https://img.shields.io/badge/cloud-free-brightgreen.svg)](#the-problem-it-solves)
 [![Quota Free](https://img.shields.io/badge/quota-unlimited-brightgreen.svg)](#the-problem-it-solves)
@@ -19,6 +19,14 @@ Long sessions rot. Compaction summarizes at the model's worst moment, drops the 
 /handoff load <path>    # resume: classify trust, verify against disk, classify drift, continue
 /handoff chain          # list the chain (Seq, date, status, goal)
 ```
+
+## v2.10 — portal round (browser ao vivo via Maestri)
+
+Pesquisa executada com browser real através do portal Maestri (o `webfetch` bloqueava Reddit/GitHub). Fontes primárias abertas e lidas integralmente: thread r/ClaudeAI "deterministic alternative to /compact" (u/yksugi) + repo ykdojo/claude-code-tips Tip 21 (fork/half-clone/hook 85%) + thread r/PiCodingAgent "handoff vs compact" (34 respostas). Deltas aplicados:
+
+- **Timing stopping-point**: escreva no stopping point (tarefa concluída), nunca com 0% restante — janelas gigantes sofrem cache-drop do provider
+- **Hook medido 85%**: padrão check-context.sh (Stop hook lendo tokens do transcript) documentado para Claude Code
+- **Fork nativo antes de handoff manual**: `/branch` e `--fork-session` bifurcam sem resumir — fork para outra abordagem do mesmo ponto, handoff para trocar de sessão com estado curado
 
 ## v2.9 — challenge round (4 desafiantes independentes, quebrar não estender)
 
