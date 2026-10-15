@@ -3,7 +3,7 @@
 > **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 20+ open-source handoff implementations, Reddit practitioner threads, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **six adversarial fleet reviews** (116 findings, all fixed), a **5-lens council convergence round** (7 techniques adopted, 3 deferred with reasons), two **ecosystem max-sweeps** (arXiv-grounded), and a **10-front research battalion** (22 adopted deltas, 17 deferred with reasons). Runs 100% locally. No cloud. No quota. No git required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.7-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.8-green.svg)](CHANGELOG.md)
 [![Runtimes](https://img.shields.io/badge/runtimes-opencode%20%7C%20claude%20%7C%20codex%20%7C%20grok-blueviolet.svg)](#installation)
 [![Cloud Free](https://img.shields.io/badge/cloud-free-brightgreen.svg)](#the-problem-it-solves)
 [![Quota Free](https://img.shields.io/badge/quota-unlimited-brightgreen.svg)](#the-problem-it-solves)
@@ -19,6 +19,18 @@ Long sessions rot. Compaction summarizes at the model's worst moment, drops the 
 /handoff load <path>    # resume: classify trust, verify against disk, classify drift, continue
 /handoff chain          # list the chain (Seq, date, status, goal)
 ```
+
+## v2.8 — replication battalion (4× full-spectrum, convergência ≥2)
+
+Quatro agentes independentes varreram o espectro inteiro (Reddit/old.reddit, GitHub/GitLab, fóruns RU/CN/nichados, Vale do Silício, vendor docs, arXiv). Regra de replicação: só entra o que ≥2 convergiram. Adotado:
+
+- **Split initializer×coder + `FirstWindow`**: sessão inaugural faz scaffolding (`init.sh`, progress file, `feature_list.json` com `passes: false`, commit inicial), não progresso incremental
+- **Ledger `passes`-only**: o writer só alterna o flag, jamais remove ou edita testes
+- **Fresh-restart + smoke-test-first**: ordem de reorientação `pwd → git log → progresso → features → init.sh → 1 e2e`, antes de qualquer feature nova
+- **Clearing cirúrgico + prefixo estável**: mantenha chamadas, descarte payloads re-buscáveis; nunca resuma o que pode ser re-lido
+- **Anti-wrap-up**: nunca encerre cedo por pressão de limite; admita não-recall em vez de afirmar falso
+- **Direction flag** (`escalate`/`downshift`/`same`) para trocas de modelo/runtime; **detail-sufficiency** ("mencionado sem detalhe" falha no gate)
+- EVAL: probes com fato plantado + check de suficiência; CI/sync markers 44 → 51
 
 ## v2.7 — battalion convergence (10 fronts → 22 deltas)
 

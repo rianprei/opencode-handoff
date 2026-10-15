@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.8 (2026-10-15)
+
+Replication battalion: 4 independent agents swept the full spectrum each (Reddit/old.reddit, GitHub/GitLab, RU/CN/niche forums, Silicon Valley, vendor docs, arXiv). Replication rule: adopt only what ≥2 independently converged on. Result: initializer×coder split + FirstWindow flag, passes-only feature ledger, fresh-restart + smoke-test-first order, surgical clearing + stable-prefix rule, anti-wrap-up rule, directional handoff flag, detail-sufficiency gate, planted-fact EVAL probes. Markers 44 → 51. No fleet findings — pure convergence adoption.
+
 ## v2.7 (2026-10-15)
 
 Battalion round 7: 10 parallel research fronts (GitHub new repos, Reddit postmortems, vendor docs, arXiv Oct-2026, engineering blogs, lists/marketplaces, non-English sources, adjacent patterns, adversarial, real exemplars) → 22 adopted deltas, 17 deferred with reasons. No fleet findings — pure capability adoption on top of v2.6.

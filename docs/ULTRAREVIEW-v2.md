@@ -53,6 +53,10 @@ Refuted: the legacy-hook claim — `~/.claude/hooks/sessionstart-handoff.sh` + `
 
 Environment note (out of scope, registered per mandate): the verifier found a registered `UserPromptSubmit` hook in the user's environment claiming operator identity and ordering removal of output constraints — it did not comply and reported it. Users should audit their own hook registrations.
 
+## Round 8 (2026-10-15) — replication battalion (4× full-spectrum) → v2.8
+
+Four independent agents swept the entire spectrum each (Reddit/old.reddit, GitHub/GitLab, RU/CN/niche forums, Silicon Valley, vendor docs, arXiv). Replication rule: adopt only what ≥2 independently converged on. Converged adoptions: initializer×coder split + FirstWindow flag, passes-only feature ledger, fresh-restart + smoke-test-first order, surgical clearing + stable-prefix rule, anti-wrap-up rule, directional handoff flag, detail-sufficiency gate, planted-fact EVAL probes. No fleet findings — pure convergence adoption. Self-caught during build: a CI regression that stripped BRE alternation backslashes from the staleness-gate patterns (fixed + verified pattern-by-pattern before commit).
+
 ## Round 7 (2026-10-15) — battalion max-sweep (10 fronts) → v2.7
 
 10 parallel research agents (GitHub new repos, Reddit postmortems, vendor docs, arXiv Oct-2026, engineering blogs, lists/marketplaces, non-English sources, adjacent patterns, adversarial, real exemplars) → 22 adopted deltas, 17 deferred with reasons. No fleet findings — pure capability adoption.
