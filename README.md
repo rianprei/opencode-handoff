@@ -78,8 +78,10 @@ bash install.sh   # from the repo root — or curl | bash (see install.sh; relea
 |---|---|
 | opencode | `~/.config/opencode/commands/handoff.md` |
 | Claude Code | `~/.claude/commands/handoff.md` |
-| Codex | `~/.agents/skills/handoff/` + `~/.codex/skills/handoff/` (both discovery paths, with `agents/openai.yaml`) |
+| Codex | `~/.codex/skills/handoff/SKILL.md` + `agents/openai.yaml` |
 | Grok Build | `~/.grok/skills/handoff/SKILL.md` |
+
+> **Duplicate `/handoff` entries in Claude Code?** Claude Code also reads the shared `~/.agents/skills/` directory. If a foreign skill named `handoff` lives there (or in `~/.claude/skills/`), it collides with this command. Fix: rename the foreign folder — `mv ~/.agents/skills/handoff ~/.agents/skills/handoff-compact` and update its `name:` frontmatter. install.sh deliberately does **not** install to `~/.agents/skills/handoff` for exactly this reason.
 
 ## When to use what
 

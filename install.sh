@@ -60,17 +60,16 @@ if [ -d "$HOME/.claude" ] || command -v claude >/dev/null 2>&1; then
     && echo "  ✅ claude → ~/.claude/commands/handoff.md" && INSTALLED=$((INSTALLED+1))
 fi
 
-# Codex — BOTH discovery paths: ~/.agents/skills (current, documented) and
-# ~/.codex/skills (legacy, loader kept for backward compat; deprecated upstream)
-if [ -d "$HOME/.codex" ] || [ -d "$HOME/.agents" ] || command -v codex >/dev/null 2>&1; then
-  mkdir -p "$HOME/.codex/skills/handoff/agents" "$HOME/.agents/skills/handoff/agents"
+# Codex — legacy discovery path (~/.codex/skills), still read by current Codex builds.
+# NOTE: we deliberately do NOT install to ~/.agents/skills/handoff — that directory is a
+# SHARED namespace (Claude Code reads it too) and a skill named "handoff" there collides
+# with the /handoff command in Claude Code. If Codex drops the legacy path, rename there.
+if [ -d "$HOME/.codex" ] || command -v codex >/dev/null 2>&1; then
+  mkdir -p "$HOME/.codex/skills/handoff/agents"
   cp "$SRC_DIR/src/codex/SKILL.md" "$HOME/.codex/skills/handoff/SKILL.md" \
-    && echo "  ✅ codex (legacy path) → ~/.codex/skills/handoff/SKILL.md" && INSTALLED=$((INSTALLED+1))
-  cp "$SRC_DIR/src/codex/SKILL.md" "$HOME/.agents/skills/handoff/SKILL.md" \
-    && echo "  ✅ codex (current path) → ~/.agents/skills/handoff/SKILL.md"
+    && echo "  ✅ codex → ~/.codex/skills/handoff/SKILL.md" && INSTALLED=$((INSTALLED+1))
   cp "$SRC_DIR/src/codex/agents/openai.yaml" "$HOME/.codex/skills/handoff/agents/openai.yaml" \
-    && cp "$SRC_DIR/src/codex/agents/openai.yaml" "$HOME/.agents/skills/handoff/agents/openai.yaml" \
-    && echo "  ✅ codex → agents/openai.yaml em ambos os caminhos (implicit invocation off)"
+    && echo "  ✅ codex → ~/.codex/skills/handoff/agents/openai.yaml (implicit invocation off)"
 fi
 
 # Grok Build

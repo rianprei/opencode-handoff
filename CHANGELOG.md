@@ -13,6 +13,7 @@ Convergence round: full GitHub + Reddit sweep (12 new sources) → 10 candidate 
 - **Chain health line** (doctor integrated into CHAIN, read-only, never auto-repairs): orphans / broken parents / zombie ACTIVEs
 - **Goal-directed extraction**: an alvo naming the NEXT session's goal extracts only what it needs; vague alvo → full extraction
 - CI markers extended (23); version-equality check retained
+- Fixed: codex dual-path install reverted — `~/.agents/skills` is a **shared namespace** (Claude Code reads it too) and a skill named `handoff` there collides with the `/handoff` command; codex keeps the legacy `~/.codex/skills` path (read by current builds), install.sh documents the trade-off, and the sync warns about foreign copies in both shared roots
 
 ### Deferred (with council reasons)
 - Map-reduce extraction for 400K+ sessions (QA: non-deterministic reduce breaks the eval regression net)
