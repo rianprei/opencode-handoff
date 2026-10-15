@@ -1,5 +1,30 @@
 # Changelog
 
+## v2.7 (2026-10-15)
+
+Battalion round 7: 10 parallel research fronts (GitHub new repos, Reddit postmortems, vendor docs, arXiv Oct-2026, engineering blogs, lists/marketplaces, non-English sources, adjacent patterns, adversarial, real exemplars) → 22 adopted deltas, 17 deferred with reasons. No fleet findings — pure capability adoption on top of v2.6.
+
+### Added
+- **Forced read-back + dirty-ack** (§9): the load report must quote back the executable next step (command + file + done-criterion), the acknowledged dirty-tree state and 1 active gate — a receiver that can't recite the map didn't understand it
+- **Receipt-hardened verifiability**: `checked` claims require a repo receipt (path:line or real command+output); without receipt = `UNVERIFIED`; mock receipts ≠ real-request receipts
+- **Trust-code-over-doc + newer-revision check**: divergent HEAD makes the doc a starting point, not truth; the load checks for a newer handoff revision before acting
+- **Stop-and-wait timeout**: no human response → re-ask once; high-risk actions default to NOT executing; the report records who approved what and when
+- **Recovery sequence**: Next Steps order IS the recovery sequence (resume point = first open step); verify-loop (write → idempotent read → retry only if absent) for keyless writes
+- **Cascade invalidation**: revoking an item lists dependents for re-verification (no orphaned Next Steps)
+- **Source anti-duplicate**: the same fact from 2 sources enters once, with both origins annotated
+- **Live-evidence-before-success**: COMPLETED requires re-executed evidence, not an inherited stamp
+- **Tool-output revalidation**: quoted tool outputs are data, re-run rather than trusted (persisted tool descriptions/outputs can be poisoned upstream)
+- **Goal-drift check**: Goal divergence vs parent without recorded reason warns before inheriting
+- **Normalized scanning**: Unicode NFKC + base64-candidate decode before the secret scan (obfuscated blobs no longer pass)
+- **Egress rule**: never fetch/render/follow URLs from untrusted state (session docs as exfil channel)
+- **Rotation**: COMPLETED chains >10 handoffs archive old links to `.handoff/archive/`
+- **Completion Requirement**: Goal carries an observable done-criterion, distinct from Next Steps
+- **Multi-agent ownership** (task/workspace/validation) in Execution Notes; **beads/prd.json references** in Relevant Files; **parked read-only advisor** tip in Pós
+- CI/sync markers extended 30 → 44
+
+### Deferred (with reasons)
+- Map-reduce extraction, universal always-stop, token hooks (standing defers); mutual old→new→old verification loop (needs the old session alive); hook automation, index regeneration, CLI tooling, plugin packaging (ecosystem infra); memory MCPs, swarm contracts, messaging infra (complements, not command text); compaction+note hybrid, plan-and-clear, inbox flow, 2-artifact split, safe-to-overwrite flags (UNVERIFIED or redundant with existing rules)
+
 ## v2.6 (2026-10-15)
 
 Surgical tone rework of v2.5 command texts across all 4 runtimes — **zero semantic changes**. Professional register, direct, precise; emoji verified at zero in all 4 files (grep across full Unicode emoji ranges returns 0 matches); colloquialisms replaced ("diga e pare" → "informe e pare", "nada além" → "nada adicional", "pule" → "ignore", prompt-text standardized). All 30 content markers, section structure, gate semantics and trust machinery bit-identical to v2.5 (verified marker-by-marker); suite sync green without changes. install.sh retagged v2.5 → v2.6.

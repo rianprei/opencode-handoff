@@ -1,9 +1,9 @@
 # opencode-handoff
 
-> **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 20+ open-source handoff implementations, Reddit practitioner threads, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **six adversarial fleet reviews** (116 findings, all fixed), a **5-lens council convergence round** (7 techniques adopted, 3 deferred with reasons), and two **ecosystem max-sweeps** (arXiv-grounded). Runs 100% locally. No cloud. No quota. No git required.
+> **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 20+ open-source handoff implementations, Reddit practitioner threads, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **six adversarial fleet reviews** (116 findings, all fixed), a **5-lens council convergence round** (7 techniques adopted, 3 deferred with reasons), two **ecosystem max-sweeps** (arXiv-grounded), and a **10-front research battalion** (22 adopted deltas, 17 deferred with reasons). Runs 100% locally. No cloud. No quota. No git required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.6-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.7-green.svg)](CHANGELOG.md)
 [![Runtimes](https://img.shields.io/badge/runtimes-opencode%20%7C%20claude%20%7C%20codex%20%7C%20grok-blueviolet.svg)](#installation)
 [![Cloud Free](https://img.shields.io/badge/cloud-free-brightgreen.svg)](#the-problem-it-solves)
 [![Quota Free](https://img.shields.io/badge/quota-unlimited-brightgreen.svg)](#the-problem-it-solves)
@@ -19,6 +19,18 @@ Long sessions rot. Compaction summarizes at the model's worst moment, drops the 
 /handoff load <path>    # resume: classify trust, verify against disk, classify drift, continue
 /handoff chain          # list the chain (Seq, date, status, goal)
 ```
+
+## v2.7 — battalion convergence (10 fronts → 22 deltas)
+
+A 10-front research battalion (GitHub new repos, Reddit postmortems, vendor docs, arXiv Oct-2026, engineering blogs, lists/marketplaces, non-English sources, adjacent patterns, adversarial, real exemplars) converged 22 adoptable deltas, all applied:
+
+- **Forced read-back + dirty-ack** — the load report quotes back the executable next step, the acknowledged dirty-tree state and 1 active gate; a receiver that can't recite the map didn't understand it
+- **Receipt-hardened verifiability** — `checked` requires a repo receipt; without receipt = `UNVERIFIED`; mock ≠ real-request receipts
+- **Stop-and-wait timeout** — one re-ask, then stop; high-risk defaults to NOT executing; approval record (who approved what, when)
+- **Recovery sequence + verify-loop** — Next Steps order IS the recovery order; keyless writes use write → idempotent-read → retry-if-absent
+- **Cascade invalidation, source anti-duplicate, live-evidence-before-success, tool-output revalidation, goal-drift check**
+- **Normalized scanning** (NFKC + base64 decode), **egress rule** (never follow URLs from untrusted state), **rotation** to `.handoff/archive/`, **completion requirement** in Goal
+- 17 more deferred with documented reasons (map-reduce, always-stop, token hooks, mutual verification loop, hook automation, memory MCPs, swarm contracts…)
 
 ## v2.4 — theory-grounded schema upgrade (arXiv-verified)
 

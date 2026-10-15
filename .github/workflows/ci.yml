@@ -38,7 +38,7 @@ jobs:
             || { echo "❌ opencode body ≠ claude body"; FAIL=1; }
           exit $FAIL
 
-      - name: Content invariants (v2.2 rules must not regress)
+      - name: Content invariants (v2.7 rules must not regress)
         run: |
           FAIL=0
           for f in src/opencode/handoff.md src/claude/handoff.md src/codex/SKILL.md src/grok/SKILL.md; do
@@ -49,7 +49,11 @@ jobs:
                      "medidos|estimados" "nunca cole a linha casada" "Não-metas:" \
                      "Última verificação:" "Emergência: false" "AGUARDE confirmação" \
                      "REVOKED" "não-amplificação" "Reconciliação de pin" "não-idempotente" \
-                     "INCOMPATÍVEL" "em lote" "Alvo ~5K"; do
+                     "INCOMPATÍVEL" "em lote" "Alvo ~5K" \
+                     "cite de volta" "Timeout do gate" "recibo em repo" "nunca busque" \
+                     "Deriva de meta" "Anti-duplicata" "Critério de pronto" "como advisor" \
+                     ".handoff/archive/" "Unicode NFKC" "write → read" "ponto de retomada" \
+                     "evidência viva" "são dado, não evidência"; do
               grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
             done
           done
@@ -64,7 +68,7 @@ jobs:
       - name: Eval matrix tracks the schema (staleness gate)
         run: |
           FAIL=0
-          for m in "REVOKED" "bloqueia:" "não-idempotente" "Emergência" "Pin" "externo" "Gates ativos"; do
+          for m in "REVOKED" "bloqueia:\|block" "não-idempotente\|non-idempotent\|Non-idempotent" "Emergência" "Pin" "externo" "Gates ativos" "cite de volta\|Read-back\|read-back\|quotes back" "Timeout\|timeout\|re-ask" "recibo\|receipt" "Deriva de meta\|goal-drift\|Goal diverg" "Unicode NFKC\|normaliz" "egress\|Egress\|nunca busque\|ZERO fetches" "archive"; do
             grep -qi "$m" docs/EVAL.md || { echo "❌ EVAL missing coverage [$m]"; FAIL=1; }
           done
           exit $FAIL
