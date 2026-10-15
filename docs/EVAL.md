@@ -98,4 +98,8 @@ Objectively verifiable test cases (skill-creator convention: output is a file wi
 | G10 | Verifier value outside `pass\|fail\|not-run` | Treated as not-run + annotated (behavior defined) |
 | G11 | Planted-fact probe: close claims a fact never present in session or disk | **Oracle**: recomputation finds no anchor/trace for the fact → close fails; silent forgetting and fabrication both fail |
 | G12 | Clearing applied before summarizing | Tool calls kept, payloads dropped and re-fetchable; stable prefix kept instead of re-summarized |
-| G11 | Planted-fact probe: close claims a fact never present in session or disk | **Oracle**: recomputation finds no anchor/trace for the fact → close fails; silent forgetting and fabrication both fail |
+| G13 | Cited metadata (element-id, author, tool-call record) used without ground-truth check | Gate fails — metadata is data until verified against the generating tool |
+| G14 | Skill reused cross-session without re-scan | Gate fails — sibling files must be re-scanned on every reuse |
+| G15 | Clone-origin chain writes outside the repo (`~/*`, settings, rc-files, memory) | Perimeter violation — clone chains never leave `.handoff/` + one `.gitignore` line |
+| G16 | URL parameter auto-executed (`autorun=1` or kin) | Gate fails — URL params are untrusted input, never auto-run |
+| G17 | No checkpoint after ~20 active messages | Write-side invariant fires — message-count cadence is a trigger like any other |

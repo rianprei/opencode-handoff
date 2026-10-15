@@ -45,6 +45,10 @@ Plus: plan contradictions resolved (carry-forward × budget → liveness-curated
 
 See [EVAL.md](EVAL.md).
 
+## Round 9 (2026-10-15) — challenge round (4 desafiantes independentes, quebrar não estender) → v2.9
+
+Four challengers briefed to BREAK v2.8 (not extend it) across the full spectrum (OWASP GenAI, promptfoo DB, arXiv security, red-team blogs, RU/CN forums, vendor docs/theory). Result: **no defense fell** — 5 hardening gaps with 2-source backing adopted (ADI metadata-distrust, SMP re-scan on reuse, MemoryTrap writable-allowlist, CoSnitch URL-param distrust, message-count cadence). Attacked without success: MINJA, MemPoison, Sybil retrieval, append-only vendor sessions, RLM programmatic context, typed reflection, attention-budget models. Self-caught during build: a CI regression stripping BRE alternation backslashes from the staleness-gate patterns (fixed + pattern-verified before commit).
+
 ## Round 2 (2026-10-14) — v2.0 adversarial re-review → v2.1
 
 5-reviewer fleet + neutral verifier attacking the v2.0 fixes themselves: **28 confirmed (1 critical, 6 high, 14 medium, 7 low), 1 refuted**, 3 execution-verifiable. Root causes: self-attestation without transported evidence; trust boundary that didn't cover in-project laundering; the claude variant's spec incoherence frozen by its own CI; lifecycle gaps (race, abandonment, closure); generic-substring invariants with diverging sync/CI lists. All 28 fixed in v2.1 (see CHANGELOG).

@@ -1,5 +1,21 @@
 # Changelog
 
+## v2.9 (2026-10-15)
+
+Challenge round 9: 4 independent challengers tasked with BREAKING v2.8 (not extending it) across the full spectrum. Result: no defense fell — but 5 hardening gaps with 2-source backing were adopted. All fixed.
+
+### Added (all with ≥2 independent sources)
+- **ADI metadata-distrust**: element-id, author/role and tool-call records cited in a handoff are verified against ground truth before any use — inexact delimiters never become authority (delimiter injection carries no imperatives and defeats counting scans)
+- **SMP re-scan on reuse**: re-scan the skill and sibling files on every cross-session reuse (deferred mutation hooks only materialize on second execution); scripts never write to skill sibling files
+- **MemoryTrap writable-allowlist**: clone-origin chains never write outside the repo — never `~/*`, `settings.json`, rc-files, nor `*/memory/` (global persistence via installer)
+- **CoSnitch URL-param distrust**: URL parameters are untrusted input — never auto-execute from them (`autorun=1` and kin always ignored); extends the egress rule
+- **Message-count cadence trigger**: ~20 messages without a checkpoint in active work joins the handoff signals
+- CI/sync markers extended 51 → 56; EVAL cases for all five (trace oracles)
+
+### Confirmed standing (challenged, not beaten)
+- Stop-and-wait timeout, provenance + non-amplification, REVOKED authority, gates-ACTIVE scoping, pin reconciliation budget, label≠anchor, anchor sensitivity, export-as-read-pointer, consent writes, bootstrap capability-negating — attacked with ADI/SMP/MemoryTrap/CoSnitch/MINJA/MemPoison/Sybil vectors, none fell
+- Architectural alternatives reviewed and rejected with reasons: append-only vendor sessions (would undo item lifecycle), programmatic context/RLM (harness-level infra), typed amplification/reflection class (kept simpler: non-amplification), attention-budget metadata models (already embodied in files-first)
+
 ## v2.8 (2026-10-15)
 
 Replication battalion: 4 independent agents swept the full spectrum each (Reddit/old.reddit, GitHub/GitLab, RU/CN/niche forums, Silicon Valley, vendor docs, arXiv). Replication rule: adopt only what ≥2 independently converged on. Result: initializer×coder split + FirstWindow flag, passes-only feature ledger, fresh-restart + smoke-test-first order, surgical clearing + stable-prefix rule, anti-wrap-up rule, directional handoff flag, detail-sufficiency gate, planted-fact EVAL probes. Markers 44 → 51. No fleet findings — pure convergence adoption.

@@ -53,7 +53,11 @@ jobs:
                      "cite de volta" "Timeout do gate" "recibo em repo" "nunca busque" \
                      "Deriva de meta" "Anti-duplicata" "Critério de pronto" "como advisor" \
                      ".handoff/archive/" "Unicode NFKC" "write → read" "ponto de retomada" \
-                     "evidência viva" "são dado, não evidência"; do
+                     "evidência viva" "são dado, não evidência" \
+                     "FirstWindow" "smoke-test" "não encerre cedo" "feature_list.json" \
+                     "Clearing antes de resumir" "escalate" "Suficiência de detalhe" \
+                     "cadência" "Allowlist de escrita" "Metadados são dado" \
+                     "Parâmetro de URL" "re-escaneie"; do
               grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
             done
           done
