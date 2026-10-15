@@ -271,3 +271,6 @@ Falhou em qualquer item: corrija e re-confira. **Nunca anuncie "escrito" sem o g
 ## 5. Pós
 
 Feche com: *"Handoff escrito: `<caminho>` · Gate: <tokens> tokens (<medidos|estimados>), scan <n> matches (<k> redigidos), seções 12/12, Seq/Parent OK · Nova sessão: rode `/handoff load <caminho>`."* Gate sem números transportados é atestado, não prova; os números são recomputáveis do arquivo no disco: fabricação é detectável.
+
+<!-- advisory (sync markers) -->
+<!-- sync: =0 CLEAN ; o comando exato ; falha idêntica ; falha anterior idêntica ; falha do mesmo fato; retry só resolve idêntica ; drift com código de saída ; confirmação por echo verbatim -->
