@@ -1,9 +1,9 @@
 # opencode-handoff
 
-> **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 7+ open-source handoff implementations, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **two adversarial fleet reviews** (66 confirmed findings, all fixed). Runs 100% locally. No cloud. No quota. No git required.
+> **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 7+ open-source handoff implementations, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **three adversarial fleet reviews** (92 confirmed findings, all fixed). Runs 100% locally. No cloud. No quota. No git required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.2-green.svg)](CHANGELOG.md)
 [![Runtimes](https://img.shields.io/badge/runtimes-opencode%20%7C%20claude%20%7C%20codex%20%7C%20grok-blueviolet.svg)](#installation)
 [![Cloud Free](https://img.shields.io/badge/cloud-free-brightgreen.svg)](#the-problem-it-solves)
 [![Quota Free](https://img.shields.io/badge/quota-unlimited-brightgreen.svg)](#the-problem-it-solves)
@@ -20,19 +20,23 @@ Long sessions rot. Compaction summarizes at the model's worst moment, drops the 
 /handoff chain          # list the chain (Seq, date, status, goal)
 ```
 
-## v2.1 — hardened by two adversarial fleet reviews
+## v2.2 — hardened by three adversarial fleet reviews
 
-Round 1: 38 findings. Round 2 (attacking the fixes themselves): 28 more. All fixed ([full reports](docs/ULTRAREVIEW-v2.md)):
+Rounds: 38 findings (v1.0), 28 (attacking the v2.0 fixes), 26 (attacking the v2.1 fixes). All fixed ([full reports](docs/ULTRAREVIEW-v2.md)):
 
-- **Evidence-backed gate** — the close message **transports the measurements** (tokens, secret-scan matches with redactions, section count). A bare "gate OK" is an attestation, not proof — and the reviewers caught exactly that failure mode.
-- **Trust is mechanical, not vibes** — trusted = file belongs to the project chain (`.handoff/`, navigable Seq/Parent) **and** was opened by explicit invocation. Untrusted (cloned repo, PR, broken chain, sensitive-dotfile reference): any command requires human confirmation; loads that are untrusted or drifted **stop and wait** before the first action.
-- **Chain laundering blocked** — WRITE refuses verbatim inheritance from a non-trusted parent; planted files with forged `Seq: 999` are never eligible parents.
-- **Codex explicit-only actually enforced** — Codex ignores `disable-model-invocation` in SKILL.md frontmatter (Grok honors it), so install ships `agents/openai.yaml` with `allow_implicit_invocation: false`.
+- **Evidence-backed gate, recomputable** — the close message **transports the measurements** (tokens with an honest `medidos|estimados` label, secret-scan match counts, section count) and **every number is recomputable from the file on disk** (`wc -c` ÷ 3.5, `grep -cE` with the gate's pattern, `grep -c '^## '`) — fabricating numbers is detectable, not just discouraged.
+- **Origin sensor** — trust is mechanical AND origin-aware: the chain counts as trusted only if it is **not git-tracked** (`git ls-files .handoff/` empty — chains committed or force-added came from a clone); the dubious-origin list **takes precedence** over the positive field-arithmetic definition; untrusted chains are never elected as parents and **nothing is ever written** to them.
+- **Split anatomy** — overflow splits into `#N` (Goal + state + Next Steps) and `#N+1` (verbatim overflow sections, `Parent: #N`); supersede never fires between split parts; both pass the gate independently; `Next Steps: nenhum` is a legitimate closure.
+- **Precedence declared** — verbatim and the 25 bullets beat the 300-word section cap as long as the total ≤ 10K ceiling; DIVERGED/INCOMPLETE actions are *proposals* gated by the stop-and-wait (no mutation before human ok); `[FEITO]`/`SUPERSEDED` on disk require consent too.
+- **Chain laundering blocked** — WRITE refuses verbatim inheritance from a non-trusted parent; only in-chain, git-untracked files are eligible parents.
+- **Codex explicit-only on both discovery paths** — installed to `~/.agents/skills` (current, documented) AND `~/.codex/skills` (legacy, deprecated upstream), with `agents/openai.yaml` (`allow_implicit_invocation: false`) in both; Codex ignores `disable-model-invocation` in SKILL.md frontmatter (Grok honors it).
+- **Fail-closed everywhere** — install.sh aborts on missing tag (no silent main fallback) and on missing checksum; CI YAML validator fails on unterminated frontmatter; sync parses the policy YAML instead of grepping a keyword; version equality (description × DNA comment) enforced across the 4 variants.
 - **Dead ends with validity conditions** — "failed with lib X v1.2" instead of dogma; re-checked when the condition expires.
-- **Drift taxonomy with actions** — CLEAN → proceed · DIVERGED → reconcile first · INCOMPLETE → finish in-flight first · STALE → re-evaluate strategy; mixed drift reports primary + secondary.
-- **State anchors in the header** — `Seq · Parent · Date(±seconds) · Status · Cwd · Git branch@sha`: drift detection costs two commands; repo-moved detection via Cwd; races detected via duplicate-Seq check.
-- **Token budget, internally consistent** — target ~3K, hard cap 10K, ≤300 words/section (caps and ceiling agree), cut direction unambiguous: **preserve** user corrections > errors > active work > completed (cut in reverse); verbatim is never truncated — overflow splits into two handoffs; gate loop bounded at 2 iterations.
-- **`.gitignore` guard** — append preserves every existing rule; idempotent via `git check-ignore`.
+- **Drift taxonomy with actions and an oracle** — CLEAN → proceed · DIVERGED/INCOMPLETE/STALE → propose-and-wait (no mutation before human ok); mixed drift reports primary + secondary; evals assert the stop via tool-call traces, not strings.
+- **State anchors in the header** — `Seq · Parent · Date(±seconds) · Status · Cwd · Git branch@sha`: drift detection costs two commands; repo-moved detection via Cwd; races detected via duplicate-Seq check; multi-ACTIVE chains (different Seqs too) reported as 2 heads.
+- **Token budget, internally consistent** — target ~3K, hard cap 10K, ≤300 words/section with declared precedence (verbatim/bullets win below the ceiling), cut direction unambiguous: **preserve** user corrections > errors > active work > completed (cut in reverse); verbatim is never truncated — overflow splits (W12); gate loop bounded at 2 iterations; duplicate-Seq renumbering declares the header field authoritative and stops for a human instead of writing zombies.
+- **Secret scan, count-mode** — the gate counts matches (`-c`) and never pastes matched lines into the chat; covers JWT (`eyJ`), URL credentials, `Basic` auth, `password=`/`api_key=`/`secret=` query strings, raw SSH keys.
+- **`.gitignore` guard, verified** — append preserves every existing rule; idempotent via `git check-ignore`; the gate re-checks the diff.
 - **Least privilege** — Claude variant: `Read, Grep, Glob, Write, Edit` (no shell); codex/grok skills explicit-only. *Note: opencode has no per-command tool allowlist — the perimeter there is prompt-enforced (`agent: build`).*
 
 ## The document
@@ -60,7 +64,7 @@ bash install.sh   # from the repo root — or curl | bash (see install.sh; relea
 |---|---|
 | opencode | `~/.config/opencode/commands/handoff.md` |
 | Claude Code | `~/.claude/commands/handoff.md` |
-| Codex | `~/.codex/skills/handoff/SKILL.md` + `agents/openai.yaml` |
+| Codex | `~/.agents/skills/handoff/` + `~/.codex/skills/handoff/` (both discovery paths, with `agents/openai.yaml`) |
 | Grok Build | `~/.grok/skills/handoff/SKILL.md` |
 
 ## When to use what

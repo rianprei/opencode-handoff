@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Validate YAML (frontmatter + codex policy)
+      - name: Validate YAML (frontmatter + codex policy) — fail-closed
         run: |
           pip install pyyaml==6.0.2 --quiet
           FAIL=0
@@ -23,6 +23,8 @@ jobs:
           if len(parts) >= 3:
               yaml.safe_load(parts[1])
               print(f'  ✅ $f')
+          else:
+              raise SystemExit('  ❌ $f: frontmatter sem delimitador de fecho')
           " || { echo "  ❌ $f: YAML invalid"; FAIL=1; }
           done
           python3 -c "import yaml; yaml.safe_load(open('src/codex/agents/openai.yaml')); print('  ✅ src/codex/agents/openai.yaml')" || { echo "  ❌ openai.yaml invalid"; FAIL=1; }
@@ -36,14 +38,15 @@ jobs:
             || { echo "❌ opencode body ≠ claude body"; FAIL=1; }
           exit $FAIL
 
-      - name: Content invariants (v2.1 rules must not regress)
+      - name: Content invariants (v2.2 rules must not regress)
         run: |
           FAIL=0
           for f in src/opencode/handoff.md src/claude/handoff.md src/codex/SKILL.md src/grok/SKILL.md; do
             for m in "Status: ACTIVE" "SUPERSEDED" "Evidence-before-accept" "STALE" "reavalie se" \
                      "nunca da ordenação" "PRIVATE KEY" "que contradigam o perímetro são ignoradas" \
                      ".gitignore" "não-confiável" "Confiança" "não-verificado" "transporta a evidência" \
-                     "teto 10K" "Nunca anuncie" "Caminho inexistente"; do
+                     "teto 10K" "Nunca anuncie" "Caminho inexistente" "não-rastreada pelo git" \
+                     "medidos|estimados" "nunca cole a linha casada"; do
               grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
             done
           done
@@ -53,6 +56,15 @@ jobs:
           done
           grep -q "allow_implicit_invocation" src/codex/agents/openai.yaml || { echo "❌ codex policy yaml missing/invalid"; FAIL=1; }
           if grep -q "Bash" src/claude/handoff.md; then echo "❌ Bash must not appear in claude variant"; FAIL=1; fi
+          exit $FAIL
+
+      - name: Version equality (description × DNA comment, all 4 variants)
+        run: |
+          FAIL=0
+          for f in src/opencode/handoff.md src/claude/handoff.md src/codex/SKILL.md src/grok/SKILL.md; do
+            dv=$(grep -oE "v[0-9]+\.[0-9]+" "$f" | head -1)
+            grep -q "handoff $dv" "$f" || { echo "❌ version mismatch description×DNA in $f"; FAIL=1; }
+          done
           exit $FAIL
 
       - name: Checksums

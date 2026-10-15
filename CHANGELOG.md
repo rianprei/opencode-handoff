@@ -1,5 +1,28 @@
 # Changelog
 
+## v2.2 (2026-10-14)
+
+26 findings from fleet-review round 3 (attacking the v2.1 fixes) — all fixed. [Full report](docs/ULTRAREVIEW-v2.md).
+
+### Added
+- **Origin sensor** — a chain is trusted only if it is **not git-tracked** (`git ls-files .handoff/` empty; committed/force-added chains came from a clone); the dubious-origin list takes **precedence** over the positive field-arithmetic definition; WRITE elects parents only among trusted files and asks about orphan chains; LOAD **writes nothing** to untrusted handoffs
+- **Split anatomy** — overflow splits into `#N` (Goal + state + Next Steps) / `#N+1` (verbatim overflow, `Parent: #N`); supersede never fires between split parts; both pass the gate; `Next Steps: nenhum` is a legitimate gate closure
+- **Declared precedence** — verbatim/bullets beat the 300-word section cap below the 10K ceiling; DIVERGED/INCOMPLETE actions are proposals gated by stop-and-wait; `[FEITO]`/`SUPERSEDED` on disk require human ok; "pule e anote" annotates the report, never the disk before consent
+- **EVAL oracles** — stop-and-wait asserted via tool-call traces (zero reads/execs of the flagged item) + fixed-format report + unchanged disk; G3 recomputes the close's numbers from the file (`wc -c` ÷3.5, `grep -cE`, `grep -c '^## '`); new cases: W12 split, L17 Cwd-divergent, L18 multi-ACTIVE different Seqs, G6 gitignore re-check, G7 empty closure
+- Version-equality check (description × DNA comment) in sync + CI; sync parses the codex policy YAML (python3-guarded) instead of grepping a keyword; environment advisories for the 5th-copy namespace collision and missing `~/.agents/skills` path
+
+### Fixed
+- Close label is honest per runtime: `<tokens> tokens (medidos|estimados)` — the estimate was being reported as a measurement in the shell-less claude variant
+- install.sh fail-closed: missing release tag aborts (no silent main fallback); missing CHECKSUMS.sha256 aborts (a missing gate is the worst failure); README claim now matches behavior
+- Codex discovery dual-path: installs to `~/.agents/skills` (current, documented) and `~/.codex/skills` (legacy, deprecated upstream) — was inert-on-current-path risk
+- Secret scan: adds `Basic` auth, `password=`/`passwd=`/`secret=`/`api_key=`/`api-key=`/`aws_secret_access_key`, conn-string pattern covering passwords with `/` and `@`; scan runs in **count mode** (`-c`) — matched lines with secret values are never pasted into the chat
+- Gate covers empty closure (`Next Steps: nenhum`); duplicate-`Seq` renumbering declares the header field authoritative (filename may diverge) and stops for a human after iterations instead of writing zombies
+- Multi-ACTIVE chains with **different** Seqs reported as 2 heads (was: only same-Seq races detected); fork tie-breaks by suffix then alphabetical
+- `.gitignore` preservation is gate-checked (`git check-ignore` + line diff), not just prose
+- LOAD chain-trust sweep via one grep of `^Seq:|^Parent:`; claim verification reads the range around the line (offset/limit), never whole files; `Git` anchor has a no-shell fallback (read `.git/HEAD` + ref)
+- codex/grok skills now use natural-language phrasing in Resume/CHAIN ("diga: leia/retome o handoff") instead of the nonexistent `/handoff` slash command; CHAIN gained "+ liste os concluídos" parity
+- CI YAML validator is fail-closed (unterminated frontmatter no longer passes silently)
+
 ## v2.1 (2026-10-14)
 
 28 findings from fleet-review round 2 (attacking the v2.0 fixes themselves) — all fixed. [Full report](docs/ULTRAREVIEW-v2.md).

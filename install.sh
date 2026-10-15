@@ -5,7 +5,7 @@
 set -uo pipefail
 
 REPO="rianprei/opencode-handoff"
-TAG="v2.1"
+TAG="v2.2"
 
 echo "📋 Installing opencode-handoff $TAG..."
 
@@ -15,7 +15,7 @@ if [ -f "$(pwd)/src/opencode/handoff.md" ]; then
 elif [ -f "$(dirname "$0")/src/opencode/handoff.md" ]; then
   SRC_DIR="$(dirname "$0")"
 else
-  # Download — pinned to the release tag
+  # Download — pinned to the release tag, NO fallback (a pin that degrades is not a pin)
   if ! command -v git >/dev/null 2>&1; then
     echo "  ❌ git not found — required for remote install"
     echo "     Manual: git clone https://github.com/$REPO.git && cd opencode-handoff && bash install.sh"
@@ -25,22 +25,23 @@ else
   TMPDIR="$(mktemp -d)" || { echo "  ❌ Cannot create temp dir"; exit 1; }
   trap '[ -n "$TMPDIR" ] && [ -d "$TMPDIR" ] && rm -rf "$TMPDIR"' EXIT
   if ! git clone --depth 1 --branch "$TAG" "https://github.com/$REPO.git" "$TMPDIR/repo" 2>/dev/null; then
-    echo "  ⚠ Tag $TAG not found — falling back to main"
-    if ! git clone --depth 1 "https://github.com/$REPO.git" "$TMPDIR/repo" 2>&1; then
-      echo "  ❌ git clone failed — check network"
-      exit 1
-    fi
+    echo "  ❌ Tag $TAG not found — aborting (no fallback to a mutable ref)."
+    echo "     Install manually from a verified clone: git clone --branch $TAG https://github.com/$REPO.git"
+    exit 1
   fi
   SRC_DIR="$TMPDIR/repo"
 fi
 
-# Verify integrity — FATAL on mismatch (integrity is the point of the checksum)
+# Verify integrity — FATAL on mismatch AND on absence (a missing gate is the worst failure)
 if [ -f "$SRC_DIR/CHECKSUMS.sha256" ]; then
   if ! (cd "$SRC_DIR" && sha256sum -c CHECKSUMS.sha256 --quiet 2>/dev/null); then
     echo "  ❌ Checksum mismatch — aborting installation."
     echo "     Verify manually: cd $SRC_DIR && sha256sum -c CHECKSUMS.sha256"
     exit 1
   fi
+else
+  echo "  ❌ CHECKSUMS.sha256 absent — aborting installation (integrity unverifiable)."
+  exit 1
 fi
 
 INSTALLED=0
@@ -59,13 +60,17 @@ if [ -d "$HOME/.claude" ] || command -v claude >/dev/null 2>&1; then
     && echo "  ✅ claude → ~/.claude/commands/handoff.md" && INSTALLED=$((INSTALLED+1))
 fi
 
-# Codex (SKILL.md + invocation policy — Codex ignores disable-model-invocation in SKILL.md)
-if [ -d "$HOME/.codex" ] || command -v codex >/dev/null 2>&1; then
-  mkdir -p "$HOME/.codex/skills/handoff/agents"
+# Codex — BOTH discovery paths: ~/.agents/skills (current, documented) and
+# ~/.codex/skills (legacy, loader kept for backward compat; deprecated upstream)
+if [ -d "$HOME/.codex" ] || [ -d "$HOME/.agents" ] || command -v codex >/dev/null 2>&1; then
+  mkdir -p "$HOME/.codex/skills/handoff/agents" "$HOME/.agents/skills/handoff/agents"
   cp "$SRC_DIR/src/codex/SKILL.md" "$HOME/.codex/skills/handoff/SKILL.md" \
-    && echo "  ✅ codex → ~/.codex/skills/handoff/SKILL.md" && INSTALLED=$((INSTALLED+1))
+    && echo "  ✅ codex (legacy path) → ~/.codex/skills/handoff/SKILL.md" && INSTALLED=$((INSTALLED+1))
+  cp "$SRC_DIR/src/codex/SKILL.md" "$HOME/.agents/skills/handoff/SKILL.md" \
+    && echo "  ✅ codex (current path) → ~/.agents/skills/handoff/SKILL.md"
   cp "$SRC_DIR/src/codex/agents/openai.yaml" "$HOME/.codex/skills/handoff/agents/openai.yaml" \
-    && echo "  ✅ codex → ~/.codex/skills/handoff/agents/openai.yaml (implicit invocation off)"
+    && cp "$SRC_DIR/src/codex/agents/openai.yaml" "$HOME/.agents/skills/handoff/agents/openai.yaml" \
+    && echo "  ✅ codex → agents/openai.yaml em ambos os caminhos (implicit invocation off)"
 fi
 
 # Grok Build

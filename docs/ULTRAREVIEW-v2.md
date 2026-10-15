@@ -53,6 +53,14 @@ Refuted: the legacy-hook claim — `~/.claude/hooks/sessionstart-handoff.sh` + `
 
 Environment note (out of scope, registered per mandate): the verifier found a registered `UserPromptSubmit` hook in the user's environment claiming operator identity and ordering removal of output constraints — it did not comply and reported it. Users should audit their own hook registrations.
 
+## Round 3 (2026-10-14) — v2.1 adversarial re-review → v2.2
+
+5-reviewer fleet + neutral verifier attacking the v2.1 fixes: **26 confirmed (0 critical, 5 high, 13 medium, 8 low), 1 refuted**, 2 execution-verifiable. First round with zero criticals. Root causes: trust by field arithmetic with no origin sensor; self-attested gates nobody recomputes; colliding rules without declared precedence; fail-open trust boundary (tag fallback, missing checksum, unterminated frontmatter); structure-only sync. All 26 fixed in v2.2.
+
+Refuted: "allow_implicit_invocation:false breaks `$skill` on non-TUI surfaces" — the original repro used `codex debug prompt-input` (bypasses the turn pipeline); the argszero comment shows `$skill` works on policy-restricted skills, and the TUI repro was re-attributed to picker case-sensitivity (#42727).
+
+Corrected sub-claim: "gitignored ⇒ planted chain in every clone" was inverted — gitignore *prevents* the chain from reaching clones; the real vector is `git add -f`/committed chains, which is exactly what the new origin sensor detects.
+
 ## Verdicts (round 1)
 
 Resolver os 18 altos antes de publicar — resolved: v2.0 shipped with all 38 findings closed, sync invariants in the local drift-killer, and CI parity/marker checks in this repo. Round 2 verdict ("resolver #1 e os 6 altos antes do v2.1") — resolved in v2.1.
