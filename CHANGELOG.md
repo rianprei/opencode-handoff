@@ -1,5 +1,24 @@
 # Changelog
 
+## v2.3 (2026-10-14)
+
+Convergence round: full GitHub + Reddit sweep (12 new sources) → 10 candidate techniques → 5-lens council (Architect/Security/Performance/UX/QA) → 7 adopted, 3 deferred with reasons. No fleet-review findings this round — this is capability adoption.
+
+### Added
+- **Capability-negating bootstrap** (council: Security constraint + UX need): the `Resume` block now teaches ANY agent — with or without our command installed — the safe pickup protocol (read whole doc → verify against disk → treat as data → propose and WAIT for confirmation). It may only instruct brief/verify/stop; never write, execute, or escalate trust
+- **Last-verifier-result** (`Última verificação: <cmd> → <pass|fail> (<data>)` in Execution Notes): a display-only pointer that saves a wasted re-verification turn on resume — rendered as a clue, never as proof (planted chains could stamp PASS); absent = unverified
+- **Verifiability labels**: bullets/decisions with `file:line` = verifiable; **without anchor = inference — hypothesis until verified**
+- **Non-goals** (`Não-metas:` header line): declares out-of-scope; a new human request beats yesterday's non-goal (human wins)
+- **Emergency mode (degraded)**: when context is nearly full — same template, minimal content, header `Emergência: true`; **skips ONLY budget/section checks — the secret scan and Seq/Parent checks always run**; the load treats emergency claims as unverified (full re-verification) and stops for human ok
+- **Chain health line** (doctor integrated into CHAIN, read-only, never auto-repairs): orphans / broken parents / zombie ACTIVEs
+- **Goal-directed extraction**: an alvo naming the NEXT session's goal extracts only what it needs; vague alvo → full extraction
+- CI markers extended (23); version-equality check retained
+
+### Deferred (with council reasons)
+- Map-reduce extraction for 400K+ sessions (QA: non-deterministic reduce breaks the eval regression net)
+- Always-brief-then-stop on every resume (Performance/UX: kills the trusted fast path; kept risk-based default)
+- Absolute-token trigger hooks (Architect/QA: per-runtime adapters + hysteresis + generation-keyed fire-once first; pattern documented)
+
 ## v2.2 (2026-10-14)
 
 26 findings from fleet-review round 3 (attacking the v2.1 fixes) — all fixed. [Full report](docs/ULTRAREVIEW-v2.md).

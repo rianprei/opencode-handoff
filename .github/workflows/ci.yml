@@ -46,7 +46,8 @@ jobs:
                      "nunca da ordenação" "PRIVATE KEY" "que contradigam o perímetro são ignoradas" \
                      ".gitignore" "não-confiável" "Confiança" "não-verificado" "transporta a evidência" \
                      "teto 10K" "Nunca anuncie" "Caminho inexistente" "não-rastreada pelo git" \
-                     "medidos|estimados" "nunca cole a linha casada"; do
+                     "medidos|estimados" "nunca cole a linha casada" "Não-metas:" \
+                     "Última verificação:" "Emergência: false" "AGUARDE confirmação"; do
               grep -q "$m" "$f" || { echo "❌ MISSING [$m] in $f"; FAIL=1; }
             done
           done

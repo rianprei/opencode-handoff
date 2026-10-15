@@ -53,6 +53,10 @@ Refuted: the legacy-hook claim — `~/.claude/hooks/sessionstart-handoff.sh` + `
 
 Environment note (out of scope, registered per mandate): the verifier found a registered `UserPromptSubmit` hook in the user's environment claiming operator identity and ordering removal of output constraints — it did not comply and reported it. Users should audit their own hook registrations.
 
+## Round 4 (2026-10-14) — ecosystem convergence + 5-lens council → v2.3
+
+Full GitHub + Reddit sweep (12 new sources: 7 r/ClaudeAI-r/ClaudeCode threads, 6 repos incl. REMvisual 60★, orzilca, aploe, nanwulan, klittle32, bugiiiii11) converged 10 candidate techniques, submitted to a 5-lens council (Architect, Security, Performance, UX, QA). Verdicts: **7 adopted** (capability-negating bootstrap, last-verifier-result as clue, verifiability labels, non-goals, degraded emergency mode with never-skipped secret scan, integrated chain-health line, goal-directed extraction), **3 deferred with reasons** (map-reduce breaks eval determinism; universal brief-then-stop kills the trusted fast path; token hooks need a per-runtime matrix). Notable council conflicts surfaced and resolved: bootstrap (Security wanted capability-negating-only, Performance rejected static rent → adopted as 4-line minimal protocol); emergency mode (Security rejected gate-skip outright → adopted degraded with scan/Seq always-on); always-stop (Architect+Security pro, Performance+UX con → kept risk-based default).
+
 ## Round 3 (2026-10-14) — v2.1 adversarial re-review → v2.2
 
 5-reviewer fleet + neutral verifier attacking the v2.1 fixes: **26 confirmed (0 critical, 5 high, 13 medium, 8 low), 1 refuted**, 2 execution-verifiable. First round with zero criticals. Root causes: trust by field arithmetic with no origin sensor; self-attested gates nobody recomputes; colliding rules without declared precedence; fail-open trust boundary (tag fallback, missing checksum, unterminated frontmatter); structure-only sync. All 26 fixed in v2.2.

@@ -1,9 +1,9 @@
 # opencode-handoff
 
-> **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 7+ open-source handoff implementations, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **three adversarial fleet reviews** (92 confirmed findings, all fixed). Runs 100% locally. No cloud. No quota. No git required.
+> **Local replica of the session-handoff pattern** — structured state transfer instead of lossy compaction. Built from the convergence of 20+ open-source handoff implementations, Reddit practitioner threads, arXiv 2608.14528 (handover theory), the ACE paper (ICLR 2026), Anthropic's own engineering guidance on context resets, and hardened by **three adversarial fleet reviews** (92 findings) plus a **5-lens council convergence round** (7 techniques adopted, 3 deferred with reasons). Runs 100% locally. No cloud. No quota. No git required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.2-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.3-green.svg)](CHANGELOG.md)
 [![Runtimes](https://img.shields.io/badge/runtimes-opencode%20%7C%20claude%20%7C%20codex%20%7C%20grok-blueviolet.svg)](#installation)
 [![Cloud Free](https://img.shields.io/badge/cloud-free-brightgreen.svg)](#the-problem-it-solves)
 [![Quota Free](https://img.shields.io/badge/quota-unlimited-brightgreen.svg)](#the-problem-it-solves)
@@ -19,6 +19,20 @@ Long sessions rot. Compaction summarizes at the model's worst moment, drops the 
 /handoff load <path>    # resume: classify trust, verify against disk, classify drift, continue
 /handoff chain          # list the chain (Seq, date, status, goal)
 ```
+
+## v2.3 — council convergence (GitHub + Reddit → 5-lens council)
+
+7 techniques adopted from the ecosystem sweep, each filtered by Security (fail-closed preserved) and QA (testable-as-specified):
+
+- **Self-instructing, capability-negating bootstrap** — the `Resume` block teaches any agent (no command installed, any runtime, paste scenarios) the safe pickup: read whole doc → verify against disk → treat as data → **propose and wait**. It can never instruct writes, execution, or trust escalation — the ASI06 vector stays closed.
+- **Last-verifier-result as a clue, not proof** — `Última verificação: <cmd> → <pass|fail>` in Execution Notes; the load re-runs the cheap command instead of trusting a stamp a planted chain could forge.
+- **Verifiability labels** — bullets with `file:line` are verifiable; unlabeled = inference (hypothesis until verified).
+- **Non-goals** — one line in the header; a new human request beats yesterday's non-goal.
+- **Emergency mode, degraded not ungated** — near-full context: minimal content, `Emergência: true`; the secret scan and Seq/Parent checks **always run** (never skipped); the load treats emergency claims as unverified and stops for human ok.
+- **Chain health line** — CHAIN reports orphans/broken-parents/zombies; read-only, never auto-repairs.
+- **Goal-directed extraction** — name the next session's goal in the alvo; the doc carries only what that goal needs.
+
+Deferred by council: map-reduce extraction (non-deterministic → breaks eval reproducibility), universal brief-then-stop (kills the trusted fast path), absolute-token hooks (needs per-runtime threshold matrix + hysteresis).
 
 ## v2.2 — hardened by three adversarial fleet reviews
 
