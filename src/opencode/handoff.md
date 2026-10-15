@@ -1,3 +1,11 @@
+---
+description: HANDOFF v2.12 — Use ONLY when the user explicitly asks: "/handoff", "write a handoff", "save session state to continue later", "load/resume the handoff <path>", "handoff chain". Never auto-invoke on casual phrases. Alternativa à compactação lossy (100% local, redige segredos, gate com evidência recomputável, cadeia com curação, sensor de origem e ciclo de vida por item, leitura restrita a caminhos do projeto)
+agent: build
+allowed-tools: Read, Grep, Glob, Write, Edit
+version: 2.12
+# DNA (lowercase marker for sync): handoff v2.12
+---
+<!-- handoff v2.12 (DNA base v2.11 + technical fixes r10) -->
 # HANDOFF v2.12 — estado estruturado da sessão para retomada por outra sessão
 
 Alternativa à compactação lossy (`/compact`): o modelo compacta no pior momento, perde o "porquê" das decisões e degrada a cada ciclo. O handoff resolve: extrai o estado essencial num documento estruturado, e a próxima sessão começa fresca com esse documento como contexto, sem o bloat da jornada.

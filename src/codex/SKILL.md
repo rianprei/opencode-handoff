@@ -1,4 +1,12 @@
 ---
+description: HANDOFF v2.12 — Use ONLY when the user explicitly asks: "/handoff", "write a handoff", "save session state to continue later", "load/resume the handoff <path>", "handoff chain". Never auto-invoke on casual phrases. Alternativa à compactação lossy (100% local, redige segredos, gate com evidência recomputável, cadeia com curação, sensor de origem e ciclo de vida por item, leitura restrita a caminhos do projeto)
+agent: build
+disable-model-invocation: true
+version: 2.12
+# DNA (lowercase marker for sync): handoff v2.12
+---
+<!-- handoff v2.12 (DNA base v2.11 + technical fixes r10) -->
+---
 description: HANDOFF v2.11 — extrai o estado estruturado da sessão para um documento que uma nova sessão retoma via /handoff load. Alternativa à compactação lossy (100% local, redige segredos, gate com evidência recomputável, cadeia com curação, sensor de origem e ciclo de vida por item)
 agent: build
 ---
